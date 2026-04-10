@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Portfolio | CS Student</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0f1e;
+      --bg2: #111827;
+      --card: #1a2235;
+      --accent: #00d4ff;
+      --accent2: #7c3aed;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --border: rgba(0, 212, 255, 0.2);
+      --green: #10b981;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Courier New', monospace;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(10, 15, 30, 0.95);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .logo {
+      color: var(--accent);
+      font-size: 1.2rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .logo span { color: var(--text); }
+
+    nav ul {
+      list-style: none;
+      display: flex; gap: 2rem;
+    }
+
+    nav ul a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    nav ul a:hover { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(0,212,255,0.05) 0%, transparent 70%);
+    }
+
+    .terminal-window {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 700px;
+      width: 100%;
+      text-align: left;
+      position: relative;
+    }
+
+    .terminal-bar {
+      display: flex; gap: 8px;
+      margin-bottom: 1.5rem;
+    }
+
+    .dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot.red { background: #ff5f57; }
+    .dot.yellow { background: #febc2e; }
+    .dot.green { background: #28c840; }
+
+    .terminal-text {
+      font-size: 0.9rem;
+      line-height: 2;
+    }
+
+    .prompt { color: var(--green); }
+    .cmd { color: var(--accent); }
+    .output { color: var(--text); }
+    .big-name {
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: var(--accent);
+      letter-spacing: 3px;
+    }
+    .role { color: var(--accent2); font-size: 1rem; }
+
+    .cursor {
+      display: inline-block;
+      width: 10px; height: 1.1em;
+      background: var(--accent);
+      animation: blink 1s step-end infinite;
+      vertical-align: text-bottom;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* SECTIONS */
+    section {
+      padding: 5rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      letter-spacing: 2px;
+    }
+
+    .section-title::before {
+      content: '// ';
+      color: var(--muted);
+    }
+
+    .divider {
+      width: 60px; height: 2px;
+      background: var(--accent);
+      margin-bottom: 2.5rem;
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .about-text { color: var(--muted); font-size: 0.95rem; }
+    .about-text p { margin-bottom: 1rem; }
+
+    .info-list { list-style: none; }
+    .info-list li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+    .info-list li span { color: var(--accent); margin-right: 8px; }
+
+    /* SKILLS */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .skill-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+
+    .skill-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .skill-card h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      margin-bottom: 0.75rem;
+    }
+
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .tag {
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      color: var(--accent);
+      font-size: 0.72rem;
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    /* PROJECTS */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: border-color 0.3s;
+    }
+
+    .project-card:hover { border-color: var(--accent2); }
+
+    .project-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-card h3 {
+      color: var(--text);
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+
+    .project-badge {
+      background: rgba(124, 58, 237, 0.2);
+      border: 1px solid rgba(124, 58, 237, 0.4);
+      color: #a78bfa;
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    .project-card p {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    /* CONTACT */
+    .contact-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem;
+      text-align: center;
+    }
+
+    .contact-box p {
+      color: var(--muted);
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    .contact-links {
+      display: flex; flex-wrap: wrap;
+      justify-content: center; gap: 1rem;
+    }
+
+    .contact-btn {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 0.6rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .contact-btn:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .about-grid { grid-template-columns: 1fr; }
+      nav ul { gap: 1rem; }
+      .big-name { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">&lt;<span>KC Madhusanka</span>/&gt;</div>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="terminal-window">
+      <div class="terminal-bar">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
+      </div>
+      <div class="terminal-text">
+        <div><span class="prompt">Guvn0r@portfolio:~$</span> <span class="cmd">whoami</span></div>
+        <div class="output big-name">YOUR NAME</div>
+        <br>
+        <div><span class="prompt">Guvn0r@portfolio:~$</span> <span class="cmd">cat role.txt</span></div>
+        <div class="output role">CS Student | Cybersecurity Enthusiast | Networking Nerd</div>
+        <br>
+        <div><span class="prompt">Guvn0r@portfolio:~$</span> <span class="cmd">./run_portfolio.sh</span></div>
+        <div class="output">Loading portfolio... <span class="cursor"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-title">about_me</div>
+    <div class="divider"></div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Hey! I'm a Computer Science student passionate about <strong style="color:var(--accent)">cybersecurity</strong> and <strong style="color:var(--accent)">networking</strong>. I love understanding how systems work — and how they can be broken and secured.</p>
+        <p>I'm currently exploring ethical hacking, network protocols, and building secure applications. Always learning, always curious.</p>
+        <p>When I'm not studying, you'll find me doing CTF challenges or tinkering with my home lab.</p>
+      </div>
+      <div>
+        <ul class="info-list">
+          <li><span>&gt;</span> Name: Your Name Here</li>
+          <li><span>&gt;</span> Study: Computer Science</li>
+          <li><span>&gt;</span> Focus: Cybersecurity & Networking</li>
+          <li><span>&gt;</span> Location: Your City, Country</li>
+          <li><span>&gt;</span> Status: Open to Internships</li>
+          <li><span>&gt;</span> Email: you@email.com</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-title">skills</div>
+    <div class="divider"></div>
+    <div class="skills-grid">
+
+      <div class="skill-card">
+        <div class="skill-icon">🔐</div>
+        <h3>Cybersecurity</h3>
+        <div class="skill-tags">
+          <span class="tag">Ethical Hacking</span>
+          <span class="tag">Penetration Testing</span>
+          <span class="tag">OSINT</span>
+          <span class="tag">CTF</span>
+          <span class="tag">Kali Linux</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-icon">🌐</div>
+        <h3>Networking</h3>
+        <div class="skill-tags">
+          <span class="tag">TCP/IP</span>
+          <span class="tag">DNS</span>
+          <span class="tag">Firewalls</span>
+          <span class="tag">Wireshark</span>
+          <span class="tag">Cisco</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-icon">💻</div>
+        <h3>Programming</h3>
+        <div class="skill-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Bash</span>
+          <span class="tag">C</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">SQL</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-icon">🛠️</div>
+        <h3>Tools</h3>
+        <div class="skill-tags">
+          <span class="tag">Nmap</span>
+          <span class="tag">Metasploit</span>
+          <span class="tag">Burp Suite</span>
+          <span class="tag">Git</span>
+          <span class="tag">Linux</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-title">projects</div>
+    <div class="divider"></div>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-header">
+          <h3>Network Scanner</h3>
+          <span class="project-badge">Python</span>
+        </div>
+        <p>A custom network scanning tool built with Python and Scapy to discover live hosts and open ports on a local network.</p>
+        <div class="skill-tags">
+          <span class="tag">Scapy</span>
+          <span class="tag">Python</span>
+          <span class="tag">Networking</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <h3>CTF Writeups</h3>
+          <span class="project-badge">Security</span>
+        </div>
+        <p>Collection of my Capture The Flag challenge writeups covering web exploitation, reverse engineering, and cryptography.</p>
+        <div class="skill-tags">
+          <span class="tag">CTF</span>
+          <span class="tag">Web Exploit</span>
+          <span class="tag">Crypto</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <h3>Home Lab Setup</h3>
+          <span class="project-badge">Lab</span>
+        </div>
+        <p>Set up a virtualized home lab with pfSense firewall, Kali Linux, and vulnerable VMs for practicing penetration testing.</p>
+        <div class="skill-tags">
+          <span class="tag">pfSense</span>
+          <span class="tag">VMware</span>
+          <span class="tag">Kali</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-title">contact</div>
+    <div class="divider"></div>
+    <div class="contact-box">
+      <p>I'm always open to connecting with fellow security enthusiasts, potential mentors, or internship opportunities. Let's talk!</p>
+      <div class="contact-links">
+        <a class="contact-btn" href="mailto:you@email.com">📧 Email Me</a>
+        <a class="contact-btn" href="https://github.com/yourusername" target="_blank">GitHub</a>
+        <a class="contact-btn" href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
+        <a class="contact-btn" href="https://tryhackme.com/p/yourusername" target="_blank">TryHackMe</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Designed &amp; Built by KC MAdhusanka &nbsp;|&nbsp; &copy; 2026</p>
+    <p style="margin-top:0.5rem; font-size:0.75rem;">
+      <span style="color:var(--green)">●</span> Available for opportunities
+    </p>
+  </footer>
+
+</body>
+</html>
